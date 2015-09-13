@@ -49,7 +49,7 @@ public class TvShowEpisodeFileOrganizerImpl implements TvShowEpisodeFileOrganize
     }
 
     private void moveToCanonicalLocation(Path library, String fileName, Path videoFilePath) throws TvShowLibraryIOException {
-        Path destination = Paths.get(library.toString(), fileName + FilenameUtils.getExtension(videoFilePath.toString()));
+        Path destination = Paths.get(library.toString(), fileName + "." + FilenameUtils.getExtension(videoFilePath.toString()));
         fileSystem.move(videoFilePath, destination);
     }
 
@@ -67,7 +67,7 @@ public class TvShowEpisodeFileOrganizerImpl implements TvShowEpisodeFileOrganize
 
         @Override
         public String transform(TvShowEpisode tvShowEpisode) {
-            return layout.replaceAll("\\{tvShow\\}", tvShowEpisode.getTvShow().getName())
+            return layout.replaceAll("\\{tvShow\\}", tvShowEpisode.getTvShow().getName().replace("&", "and").replace(": ", " - ").replace("'", ""))
                     .replaceAll("\\{season\\}", String.valueOf(tvShowEpisode.getSeason()))
                     .replaceAll("\\{season:2\\}", String.format("%02d", tvShowEpisode.getSeason()))
                     .replaceAll("\\{episode:2\\}", String.format("%02d", tvShowEpisode.getEpisode()));

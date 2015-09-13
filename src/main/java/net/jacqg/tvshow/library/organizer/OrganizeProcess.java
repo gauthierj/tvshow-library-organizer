@@ -8,7 +8,9 @@ import net.jacqg.tvshow.library.organizer.model.TvShow;
 import net.jacqg.tvshow.library.organizer.model.TvShowEpisode;
 import net.jacqg.tvshow.library.organizer.model.TvShowEpisodeFile;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -73,6 +76,7 @@ public class OrganizeProcess {
         LOGGER.info("Found {} TV Show episode files", tvShowEpisodeFiles.size());
         LOGGER.info("------------------------------------------------------------------------");
         LOGGER.info("Fixing wrong TV Show names");
+
         Collection<TvShowEpisodeFile> finalTvShowEpisodeFiles = CollectionUtils.collect(tvShowEpisodeFiles, input -> {
             if (manualFixes.containsKey(input.getTvShowEpisode().getTvShow().getName())) {
                 TvShow tvShow = new TvShow(manualFixes.get(input.getTvShowEpisode().getTvShow().getName()));
@@ -81,6 +85,9 @@ public class OrganizeProcess {
             }
             return input;
         });
+        List<String> tvShowNames = new ArrayList<>(new HashSet<>(CollectionUtils.collect(finalTvShowEpisodeFiles, input -> input.getTvShowEpisode().getTvShow().getName())));
+        Collections.sort(tvShowNames);;
+        System.out.println(tvShowNames);
         LOGGER.info("Fixed wrong TV Show names");
         LOGGER.info("------------------------------------------------------------------------");
         LOGGER.info("Moving files");

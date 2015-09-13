@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -16,12 +15,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-@Component
-public class TvShowRepositoryImpl implements TvShowRepository {
+public class TvRageTvShowRepositoryImpl implements TvShowRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TvShowRepositoryImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TvRageTvShowRepositoryImpl.class);
 
     @Value("${tvshow.repository.ws.url:http://services.tvrage.com}")
     private String url;

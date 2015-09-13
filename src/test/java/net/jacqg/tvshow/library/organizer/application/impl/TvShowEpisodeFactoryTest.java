@@ -1,8 +1,7 @@
-package net.jacqg.library.organizer;
+package net.jacqg.tvshow.library.organizer.application.impl;
 
 import net.jacqg.tvshow.library.organizer.application.impl.filematcher.*;
 import net.jacqg.tvshow.library.organizer.model.TvShow;
-import net.jacqg.tvshow.library.organizer.application.impl.TvShowEpisodeFactory;
 import net.jacqg.tvshow.library.organizer.model.TvShowEpisode;
 import net.jacqg.tvshow.library.organizer.application.TvShowRepository;
 import org.apache.commons.collections4.CollectionUtils;
@@ -147,8 +146,8 @@ public class TvShowEpisodeFactoryTest {
         }
 
         @Bean
-        public List<FileMatcherFactory> fileMatcherFactories(@Value("#{'${thshow.patternFileMatcher.patterns}'.split(';')}") List<String> patterns,
-                                                             @Value("#{'${thshow.patternAndDirectoryFileMatcher.patterns}'.split(';')}") List<String> patterns2) {
+        public List<FileMatcherFactory> fileMatcherFactories(@Value("#{'${tvshow.patternFileMatcher.patterns}'.split(';')}") List<String> patterns,
+                                                             @Value("#{'${tvshow.patternAndDirectoryFileMatcher.patterns}'.split(';')}") List<String> patterns2) {
             ArrayList<FileMatcherFactory> fileMatcherFactories = new ArrayList<>(CollectionUtils.collect(patterns, PatternFileMatcherFactory::new));
             fileMatcherFactories.addAll(CollectionUtils.collect(patterns2, PatternAndParentDirectoryFileMatcherFactory::new));
             return fileMatcherFactories;

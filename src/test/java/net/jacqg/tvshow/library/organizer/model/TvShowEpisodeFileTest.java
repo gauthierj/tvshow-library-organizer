@@ -1,6 +1,5 @@
-package net.jacqg.library.organizer;
+package net.jacqg.tvshow.library.organizer.model;
 
-import net.jacqg.tvshow.library.organizer.model.TvShowEpisodeFile;
 import org.junit.Assert;
 import org.junit.Test;
 
