@@ -8,6 +8,8 @@ import net.jacqg.tvshow.library.organizer.model.TvShowEpisodeFile;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import java.util.Set;
 @Component
 public class TvShowEpisodeFileOrganizerImpl implements TvShowEpisodeFileOrganizer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TvShowEpisodeFileOrganizerImpl.class);
     @Autowired
     private TvShowEpisodeToFileNameTransformer transformer;
 
@@ -50,7 +53,11 @@ public class TvShowEpisodeFileOrganizerImpl implements TvShowEpisodeFileOrganize
 
     private void moveToCanonicalLocation(Path library, String fileName, Path videoFilePath) throws TvShowLibraryIOException {
         Path destination = Paths.get(library.toString(), fileName + "." + FilenameUtils.getExtension(videoFilePath.toString()));
-        fileSystem.move(videoFilePath, destination);
+        try {
+            fileSystem.move(videoFilePath, destination);
+        } catch (TvShowLibraryIOException e) {
+            LOGGER.error("Could not move {} to {}", videoFilePath, destination);
+        }
     }
 
     private void notifyListeners(TvShowEpisodeFile file) {
